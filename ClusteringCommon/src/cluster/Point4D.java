@@ -28,6 +28,10 @@ public class Point4D {
 	public int getQuantity() {
 		return quantity;
 	}
+	
+	public double[] toDoubleArray() {
+		return new double[] {pricePerShare, deltaDay, deltaHour, quantity};
+	}
 
 	public double distance(Point4D point) {
 		return Math

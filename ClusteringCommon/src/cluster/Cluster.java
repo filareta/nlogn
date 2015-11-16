@@ -69,6 +69,10 @@ public class Cluster {
 	public double distance(Cluster current) {
 		return center.distance(current.getCenter());
 	}
+	
+	public final double[] getSums() {
+		return new double[] {priceSum, deltaDaySum, deltaHourSum, quantitySum};
+	}
 
 	@Override
 	public int hashCode() {
