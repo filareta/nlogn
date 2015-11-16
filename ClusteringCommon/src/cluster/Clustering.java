@@ -19,4 +19,8 @@ public class Clustering implements Iterable<Cluster> {
 	public Iterator<Cluster> iterator() {
 		return clusters.iterator();
 	}
+
+	public int size() {
+		return clusters.size();
+	}
 }
