@@ -2,6 +2,7 @@ package clustering.kmeans.sequential;
 
 import java.util.Queue;
 
+import um.event.EventConstants;
 import cluster.Cluster;
 import cluster.Point4D;
 import clustering.kmeans.job.AbstractJobRunner;
@@ -50,13 +51,13 @@ public class KMeansJobRunner extends AbstractJobRunner {
 			nEventProperties clusters[] = new nEventProperties[resClusters.length];
 			for (int i = 0 ; i < resClusters.length; i++) {
 				clusters[i] = new nEventProperties();
-				clusters[i].put("center", resClusters[i].getCenter().toDoubleArray());
-				clusters[i].put("sum", resClusters[i].getSums());
-				clusters[i].put("pointsCount", resClusters[i].getTotalPointsCount());
+				clusters[i].put(EventConstants.KEY_CENTER, resClusters[i].getCenter().toDoubleArray());
+				clusters[i].put(EventConstants.KEY_SUM_ARRAY, resClusters[i].getSums());
+				clusters[i].put(EventConstants.KEY_POINTS_COUNT, resClusters[i].getTotalPointsCount());
 			}
 			
 			nEventProperties props = new nEventProperties();
-			props.put("clusters", clusters);
+			props.put(EventConstants.KEY_CLUSTERS, clusters);
 			
 			nConsumeEvent evt = new nConsumeEvent(props, "Clusters".getBytes());
 			
