@@ -6,7 +6,7 @@ public class Point4D {
 	private double deltaHour;
 	private int quantity;
 	
-	private Point4D(double pPS, double dD, double dH, int quantity) {
+	public Point4D(double pPS, double dD, double dH, int quantity) {
 		this.pricePerShare = pPS;
 		this.deltaDay = dD;
 		this.deltaHour = dH;
@@ -21,7 +21,7 @@ public class Point4D {
 		return deltaDay;
 	}
 	
-	public double deltaHour() {
+	public double getDeltaHour() {
 		return deltaHour;
 	}
 	
