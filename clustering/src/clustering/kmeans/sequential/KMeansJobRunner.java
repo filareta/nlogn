@@ -10,10 +10,10 @@ import datagen.PointGenerator;
 public class KMeansJobRunner extends AbstractJobRunner {
 	
 	/** The final number of clusters, which the algorithm will generate. */
-	private final static int DEFAULT_CLUSTERS_COUNT = 4;
+	private final static int DEFAULT_CLUSTERS_COUNT = 3;
 	
 	/** The default number of points to be generated in each mock data set. */
-	private final static int DEFAULT_POINTS_COUNT_IN_MOCK_DATA_SET = 10;
+	private final static int DEFAULT_POINTS_COUNT_IN_MOCK_DATA_SET = 3;
 	
 	private final static int DEFAULT_OFFSET = 20;
 	
@@ -59,6 +59,12 @@ public class KMeansJobRunner extends AbstractJobRunner {
 		// Increment the total points count of the closest cluster with 1.		
 		resClusters[clusterIndex].incrementTotalPointsCount();
 		int totalPointsCount = resClusters[clusterIndex].getTotalPointsCount();
+		
+		// Increment the corresponding sums.
+		resClusters[clusterIndex].incrementPriceSum(nextPoint.getPricePerShare());
+		resClusters[clusterIndex].incrementDeltaDaySum(nextPoint.getDeltaDay());
+		resClusters[clusterIndex].incrementDeltaHourSum(nextPoint.getDeltaHour());
+		resClusters[clusterIndex].incrementQuantitySum(nextPoint.getQuantity());
 		
 		// Calculate new center: mi + (1/ni)*( x - mi)
 		Point4D closestCentroid = resClusters[clusterIndex].getCenter();
