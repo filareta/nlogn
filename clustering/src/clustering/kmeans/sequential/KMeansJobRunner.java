@@ -52,6 +52,26 @@ public class KMeansJobRunner extends AbstractJobRunner {
 	
 	private void assignPointToCluster(final Point4D nextPoint) {
 		
+		// Find the index of that cluster, which center is closest to the given point.
+		int clusterIndex = findClosestCluster(nextPoint);
+		
+		// Assign the given point to its closest cluster and update the cluster values accordingly.
+		// Increment the total points count of the closest cluster with 1.		
+		resClusters[clusterIndex].incrementTotalPointsCount();
+		int totalPointsCount = resClusters[clusterIndex].getTotalPointsCount();
+		
+		// Calculate new center: mi + (1/ni)*( x - mi)
+		Point4D closestCentroid = resClusters[clusterIndex].getCenter();
+		
+		Point4D newCentroid = ((nextPoint.minus(closestCentroid))
+				.divide(totalPointsCount))
+				.add(closestCentroid);
+		
+		resClusters[clusterIndex].setCenter(newCentroid);
+	}
+	
+	private int findClosestCluster(final Point4D nextPoint) {
+		
 		double minDistance = -1;
 		double tempDistance = -1;
 		int clusterIndex = -1;
@@ -70,21 +90,7 @@ public class KMeansJobRunner extends AbstractJobRunner {
 				clusterIndex = i;
 			}
 		}
-		
-		// Assign the given point to its closest cluster and update the cluster values accordingly.
-		
-		// Increment the total points count of the closest cluster with 1.		
-		resClusters[clusterIndex].incrementTotalPointsCount();
-		int totalPointsCount = resClusters[clusterIndex].getTotalPointsCount();
-		
-		// Calculate new center: mi + (1/ni)*( x - mi)
-		Point4D closestCentroid = resClusters[clusterIndex].getCenter();
-		
-		Point4D newCentroid = ((nextPoint.minus(closestCentroid))
-				.divide(totalPointsCount))
-				.add(closestCentroid);
-		
-		resClusters[clusterIndex].setCenter(newCentroid);
+		return clusterIndex;
 	}
 	
 	@Override
