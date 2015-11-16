@@ -21,9 +21,17 @@ public class Cluster {
 	public Point4D getCenter() {
 		return center;
 	}
+	
+	public final void setCenter(final Point4D newCenter) {
+		this.center = newCenter;
+	}
 
 	public int getTotalPointsCount() {
 		return totalPointsCount;
+	}
+	
+	public void incrementTotalPointsCount() {
+		++totalPointsCount;
 	}
 
 	public double getPriceSum() {

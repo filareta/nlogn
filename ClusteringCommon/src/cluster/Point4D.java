@@ -36,6 +36,30 @@ public class Point4D {
 						+ Math.pow((deltaHour - point.getDeltaHour()), 2)
 						+ Math.pow((quantity - point.getQuantity()), 2));
 	}
+	
+	public final Point4D minus(final Point4D other) {
+		
+		return new Point4D(other.getPricePerShare() - pricePerShare, 
+				other.getDeltaDay() - deltaDay, 
+				other.getDeltaHour() - deltaHour, 
+				other.getQuantity() - quantity);
+	}
+	
+	public final Point4D add(final Point4D other) {
+		
+		return new Point4D(other.getPricePerShare() + pricePerShare, 
+				other.getDeltaDay() + deltaDay, 
+				other.getDeltaHour() + deltaHour, 
+				other.getQuantity() + quantity);
+	}
+	
+	public Point4D divide(final int divider) {
+		
+		return new Point4D(pricePerShare/divider, 
+				deltaDay/divider, 
+				deltaHour/divider, 
+				quantity/divider);
+	}
 
 	@Override
 	public int hashCode() {
