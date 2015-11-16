@@ -19,10 +19,13 @@ public class KMeansJobRunner extends AbstractJobRunner {
 	
 	private Cluster[] resClusters;
 	
+	public Cluster[] getResClusters() {
+		return resClusters;
+	}
+
 	@Override
 	public void setup() {
 		super.setup();
-		resClusters = new Cluster[DEFAULT_CLUSTERS_COUNT];
 	}
 	
 	@Override
