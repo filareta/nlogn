@@ -19,7 +19,7 @@ public class KMeansJobRunner extends AbstractJobRunner {
 	
 	private Cluster[] resClusters;
 	
-	public Cluster[] getResClusters() {
+	public final Cluster[] getResClusters() {
 		return resClusters;
 	}
 
