@@ -30,24 +30,40 @@ public class Cluster {
 		return totalPointsCount;
 	}
 	
-	public void incrementTotalPointsCount() {
+	public final void incrementTotalPointsCount() {
 		++totalPointsCount;
 	}
 
 	public double getPriceSum() {
 		return priceSum;
 	}
+	
+	public final void incrementPriceSum(final double price) {
+		this.priceSum = priceSum + price;
+	}
 
 	public double getDeltaDaySum() {
 		return deltaDaySum;
+	}
+	
+	public final void incrementDeltaDaySum(final double deltaDay) {
+		this.deltaDaySum = deltaDaySum + deltaDay;
 	}
 
 	public double getDeltaHourSum() {
 		return deltaHourSum;
 	}
+	
+	public final void incrementDeltaHourSum(final double deltaHour) {
+		this.deltaHourSum = deltaHourSum + deltaHour;
+	}
 
 	public int getQuantitySum() {
 		return quantitySum;
+	}
+	
+	public final void incrementQuantitySum(final int quantitySum) {
+		this.quantitySum = quantitySum + quantitySum;
 	}
 
 	public double distance(Cluster current) {
