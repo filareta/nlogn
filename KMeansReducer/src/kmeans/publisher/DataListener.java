@@ -53,5 +53,4 @@ public class DataListener implements nEventListener {
 	
 	lock.unlock();
     }
-
 }

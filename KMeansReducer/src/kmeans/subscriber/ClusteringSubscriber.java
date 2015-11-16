@@ -13,13 +13,11 @@ public class ClusteringSubscriber {
 
     public void subscribe() {
 	try {
-	    nSessionAttributes sessionAttr = new nSessionAttributes(
-		    SESSION_ATTRIBUTE);
+	    nSessionAttributes sessionAttr = new nSessionAttributes(SESSION_ATTRIBUTE);
 	    nSession session = nSessionFactory.create(sessionAttr);
 	    session.init();
 
-	    nChannelAttributes channelAttr = new nChannelAttributes(
-		    "mapperData");
+	    nChannelAttributes channelAttr = new nChannelAttributes("mapperData");
 	    nChannel chan = session.findChannel(channelAttr);
 	    chan.addSubscriber(new DataListener());
 	} catch (Exception e) {
