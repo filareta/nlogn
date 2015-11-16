@@ -2,13 +2,14 @@ package clustering.kmeans.sequential;
 
 import java.util.Random;
 
+import cluster.Cluster;
 import cluster.Point4D;
 
 public final class InitialDataGenerator {
 	
-	public final static Point4D[] generateInitialCentroids(final int clustersCount) {
+	public final static Cluster[] generateInitialClusters(final int clustersCount) {
 		
-		Point4D[] result = new Point4D[clustersCount];
+		Cluster[] result = new Cluster[clustersCount];
 		
 		double minPrice = 1000;
 		double maxPrice = 2000;
@@ -24,13 +25,17 @@ public final class InitialDataGenerator {
 		
 		long seed = 2;
 		
+		Point4D randPoint;
+		
 		for(int i = 0; i < clustersCount; i++) {
 			
-			result[i] = generateRandomPoint4D(minPrice, maxPrice, 
+			randPoint = generateRandomPoint4D(minPrice, maxPrice, 
 					minDeltaDay, maxDeltaDay, 
 					minDeltaHours, maxDeltaHours, 
 					minQuantity, maxQuantity, 
 					seed);
+			
+			result[i] = new Cluster(randPoint, 0, 0, 0, 0, 0);
 			
 			minPrice = minPrice + 1000;
 			maxPrice = maxPrice + 1000;
