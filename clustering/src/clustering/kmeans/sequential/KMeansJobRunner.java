@@ -22,7 +22,11 @@ public class KMeansJobRunner extends AbstractJobRunner {
 	private final static int DEFAULT_CLUSTERS_COUNT = 4;
 	
 	/** The default number of points to be generated in each mock data set. */
-	private final static int DEFAULT_POINTS_COUNT_IN_MOCK_DATA_SET = 10;
+	private final static int DEFAULT_POINTS_COUNT_IN_MOCK_DATA_SET = 500;
+	
+	/** The default number of points to be generated in each mock data set. */
+	private final static int TOTAL_POINTS_COUNT_IN_MOCK_DATA_SET = 
+			DEFAULT_CLUSTERS_COUNT * DEFAULT_POINTS_COUNT_IN_MOCK_DATA_SET;
 	
 	private final static int DEFAULT_OFFSET = 20;
 	
@@ -77,6 +81,8 @@ public class KMeansJobRunner extends AbstractJobRunner {
 	@Override
 	public void setup() {
 		super.setup();
+		System.out.println("Final number of clusters to be generated: " + DEFAULT_CLUSTERS_COUNT);
+		System.out.println("Number of mock data points to be generated: " + TOTAL_POINTS_COUNT_IN_MOCK_DATA_SET);
 	}
 	
 	@Override
@@ -85,8 +91,13 @@ public class KMeansJobRunner extends AbstractJobRunner {
 		// Generate initial centroids for the algorithm.
 		resClusters = InitialDataGenerator.generateInitialClusters(DEFAULT_CLUSTERS_COUNT);
 		
+		for (int i = 0; i < resClusters.length; i++) {
+			Point4D randPoint = resClusters[i].getCenter();
+			System.out.println("Initial center for the " + (i + 1) + "th cluster is: " + randPoint.toString());
+		}
+		
 		// Generate @{code DEFAULT_CLUSTERS_COUNT} mock data sets and cluster it sequentially.
-		for (int i = 0; i < DEFAULT_CLUSTERS_COUNT; i++) {
+		for (int i = 0; i < resClusters.length; i++) {
 			
 			int offset = DEFAULT_OFFSET + (i * 20);
 			
@@ -101,6 +112,11 @@ public class KMeansJobRunner extends AbstractJobRunner {
 				Point4D nextPoint = mockDataSet.poll();
 				assignPointToCluster(nextPoint);
 			}
+		}
+		
+		for (int i = 0; i < resClusters.length; i++) {
+			Point4D centroid = resClusters[i].getCenter();
+			System.out.println("Final center for the " + (i + 1) + "th cluster is: " + centroid.toString());
 		}
 	}
 	

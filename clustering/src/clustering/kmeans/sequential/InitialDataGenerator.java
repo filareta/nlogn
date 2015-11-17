@@ -11,21 +11,22 @@ public final class InitialDataGenerator {
 		
 		Cluster[] result = new Cluster[clustersCount];
 		
-		double minPrice = 1000;
-		double maxPrice = 2000;
+		double minPrice = 5;
+		double maxPrice = 25;
 		
-		double minDeltaDay = 0;
-		double maxDeltaDay = 100;
+		double minDeltaDay = 1;
+		double maxDeltaDay = 2;
 		
-		double minDeltaHours = 0;
-		double maxDeltaHours = 100;
+		double minDeltaHours = 1;
+		double maxDeltaHours = 2;
 		
 		int minQuantity = 100;
-		int maxQuantity = 1000;
+		int maxQuantity = 300;
 		
 		long seed = 2;
 		
 		Point4D randPoint;
+		Random randGenerator =  new Random(3);
 		
 		for(int i = 0; i < clustersCount; i++) {
 			
@@ -33,20 +34,21 @@ public final class InitialDataGenerator {
 					minDeltaDay, maxDeltaDay, 
 					minDeltaHours, maxDeltaHours, 
 					minQuantity, maxQuantity, 
-					seed);
+					randGenerator);
 			
 			result[i] = new Cluster(randPoint, 0, 0, 0, 0, 0);
 			
-			minPrice = minPrice + 1000;
-			maxPrice = maxPrice + 1000;
+			minPrice = minPrice + 20;
+			maxPrice = maxPrice + 25;
 			
-//			minDeltaDay = minDeltaDay + 100; // minDelaDay is 0.
-			maxDeltaDay = maxDeltaDay + 100;
+			minDeltaDay = minDeltaDay + i + 1; 
+			maxDeltaDay = maxDeltaDay + i + 2;
 			
-//			minDeltaHours = minDeltaHours + 100; // minDelaHours is 0.
-			maxDeltaHours = maxDeltaHours + 100;
+			minDeltaHours = minDeltaHours + i + 1; 
+			maxDeltaHours = maxDeltaHours + i + 4;
 			
-			seed = seed + i + 1;
+			minQuantity = minQuantity + 100;
+			maxQuantity = 300 + (200 * (i + 1));
 		}
 		
 		return result;
@@ -54,25 +56,23 @@ public final class InitialDataGenerator {
 	
 	public final static Point4D  generateRandomPoint4D(double minPrice, double maxPrice, 
 			double minDeltaDay, double maxDeltaDay, double minDeltaHours, double maxDeltaHours, 
-			int minQuantity, int maxQuantity, long seed) {
+			int minQuantity, int maxQuantity, final Random randGenerator) {
 		
-		double randPrice = generateRandomDouble(minPrice, maxPrice, seed);
-		double randDeltaDay = generateRandomDouble(minDeltaDay, maxDeltaDay, seed);
-		double randDeltaHours = generateRandomDouble(minDeltaHours, maxDeltaHours, seed);
-		int randQuantity = generateRandomInt(minQuantity, maxQuantity, seed);
+		double randPrice = generateRandomDouble(minPrice, maxPrice, randGenerator);
+		double randDeltaDay = generateRandomDouble(minDeltaDay, maxDeltaDay, randGenerator);
+		double randDeltaHours = generateRandomDouble(minDeltaHours, maxDeltaHours, randGenerator);
+		int randQuantity = generateRandomInt(minQuantity, maxQuantity, randGenerator);
 		
 		return new Point4D(randPrice, randDeltaDay, randDeltaHours, randQuantity);
 	}
 
-	public final static double generateRandomDouble(double min, double max, long seed) {
-		Random rand = new Random(seed);
-		double randNumber = min + ((max - min) * rand.nextDouble());
+	public final static double generateRandomDouble(double min, double max, final Random randGenerator) {
+		double randNumber = min + ((max - min) * randGenerator.nextDouble());
 		return randNumber;
 	}
 	
-	public final static int generateRandomInt(int min, int max, long seed) {
-		Random rand = new Random(seed);
-		int randNumber = rand.nextInt((max - min) + 1) + min;
+	public final static int generateRandomInt(int min, int max, final Random randGenerator) {
+		int randNumber = randGenerator.nextInt((max - min) + 1) + min;
 		return randNumber;
 	}
 }

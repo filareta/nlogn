@@ -39,7 +39,7 @@ public class Cluster {
 	}
 	
 	public final void incrementPriceSum(final double price) {
-		this.priceSum = priceSum + price;
+		this.priceSum = this.priceSum + price;
 	}
 
 	public double getDeltaDaySum() {
@@ -47,7 +47,7 @@ public class Cluster {
 	}
 	
 	public final void incrementDeltaDaySum(final double deltaDay) {
-		this.deltaDaySum = deltaDaySum + deltaDay;
+		this.deltaDaySum = this.deltaDaySum + deltaDay;
 	}
 
 	public double getDeltaHourSum() {
@@ -55,7 +55,7 @@ public class Cluster {
 	}
 	
 	public final void incrementDeltaHourSum(final double deltaHour) {
-		this.deltaHourSum = deltaHourSum + deltaHour;
+		this.deltaHourSum = this.deltaHourSum + deltaHour;
 	}
 
 	public int getQuantitySum() {
@@ -63,7 +63,7 @@ public class Cluster {
 	}
 	
 	public final void incrementQuantitySum(final int quantitySum) {
-		this.quantitySum = quantitySum + quantitySum;
+		this.quantitySum = this.quantitySum + quantitySum;
 	}
 
 	public double distance(Cluster current) {
