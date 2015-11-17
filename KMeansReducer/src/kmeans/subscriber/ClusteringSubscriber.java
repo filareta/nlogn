@@ -10,6 +10,8 @@ import com.pcbsys.nirvana.client.nSessionAttributes;
 import com.pcbsys.nirvana.client.nSessionFactory;
 
 public class ClusteringSubscriber {
+    private static int WAIT_TIMEOUT = 30000;
+    
     public void subscribe() {
 	try {
 	    nSessionAttributes sessionAttr = new nSessionAttributes(EventConstants.SESSION_ATTRIBUTE);
@@ -18,7 +20,14 @@ public class ClusteringSubscriber {
 
 	    nChannelAttributes channelAttr = new nChannelAttributes(EventConstants.KEY_MAPPER_DATA_CHANNEL);
 	    nChannel chan = session.findChannel(channelAttr);
-	    chan.addSubscriber(new DataListener());
+	    DataListener dataListener = new DataListener();
+	    chan.addSubscriber(dataListener);
+	    
+	    while(dataListener.receivedEventsCount() == 0) {		
+		Thread.sleep(WAIT_TIMEOUT);
+	    }
+	    
+	    dataListener.sendData();
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}

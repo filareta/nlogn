@@ -13,16 +13,20 @@ import com.pcbsys.nirvana.client.nEventListener;
 import com.pcbsys.nirvana.client.nEventProperties;
 
 public class DataListener implements nEventListener {
-    private final static int EVENT_LIMIT_COUNT = 1;
+    private final static int EVENT_LIMIT_COUNT = 3;
     
     private ClusteringPublisher publisher;
     private Reducer reducer;
     private ReentrantLock lock;
-    private int receivedEvents;
+    private volatile int receivedEvents;
 
     public DataListener() {
 	publisher = new ClusteringPublisher();
 	lock = new ReentrantLock();
+	initReducer();
+    }
+
+    private void initReducer() {
 	reducer = new Reducer();
 	receivedEvents = 0;
     }
@@ -48,10 +52,31 @@ public class DataListener implements nEventListener {
 	reducer.addClustering(clustering);
 	
 	receivedEvents++;
+	System.out.println("Event received, total events count " + receivedEvents);
+	
 	if (receivedEvents == EVENT_LIMIT_COUNT) {
+	    System.out.println("Event limit count reached! Publish clustering!");
 	    publisher.publish(reducer.getClustering());
+	    initReducer();
 	}
 	
 	lock.unlock();
+    }
+    
+    public void sendData() {
+	lock.lock();
+	
+	System.out.println("Send data, received events count " + receivedEvents);
+	if(reducer.isResultAvailable()) {
+	    System.out.println("Result still available!");
+	    publisher.publish(reducer.getClustering());
+	    initReducer();
+	}
+	
+	lock.unlock();
+    }
+    
+    public int receivedEventsCount() {
+	return receivedEvents;
     }
 }

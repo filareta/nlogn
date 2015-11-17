@@ -11,7 +11,12 @@ import cluster.Point4D;
 public class Reducer {
     private Clustering resultClustering;
     private Set<Cluster> mergedClusters;
-
+    
+    public Reducer() {
+	resultClustering = null;
+	mergedClusters = new HashSet<>();
+    }
+    
     public void addClustering(Clustering clustering) {
 	if (resultClustering == null) {
 	    resultClustering = clustering;
@@ -57,27 +62,26 @@ public class Reducer {
     }
 
     private Cluster mergeClusters(Cluster firstCluster, Cluster secondCluster) {
-	int totalClusterPoints = firstCluster.getTotalPointsCount()
-		+ secondCluster.getTotalPointsCount();
+	int totalClusterPoints = firstCluster.getTotalPointsCount() + secondCluster.getTotalPointsCount();
 
-	double priceSum = (firstCluster.getPriceSum() + secondCluster
-		.getPriceSum());
-	double deltaDaySum = (firstCluster.getDeltaDaySum() + secondCluster
-		.getDeltaDaySum());
-	double deltaHourSum = (firstCluster.getDeltaHourSum() + secondCluster
-		.getDeltaHourSum());
-	int quantitySum = (firstCluster.getQuantitySum() + secondCluster
-		.getQuantitySum());
-
+	double priceSum = (firstCluster.getPriceSum() + secondCluster.getPriceSum());
+	double deltaDaySum = (firstCluster.getDeltaDaySum() + secondCluster.getDeltaDaySum());
+	double deltaHourSum = (firstCluster.getDeltaHourSum() + secondCluster.getDeltaHourSum());
+	int quantitySum = (firstCluster.getQuantitySum() + secondCluster.getQuantitySum());
+	
 	Point4D center = new Point4D(priceSum / totalClusterPoints, deltaDaySum
 		/ totalClusterPoints, deltaHourSum / totalClusterPoints,
 		quantitySum / totalClusterPoints);
-
+	
 	return new Cluster(center, totalClusterPoints, priceSum, deltaDaySum,
 		deltaHourSum, quantitySum);
     }
 
     public Clustering getClustering() {
 	return resultClustering;
+    }
+    
+    public boolean isResultAvailable() {
+	return resultClustering != null;
     }
 }

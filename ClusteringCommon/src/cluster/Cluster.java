@@ -130,4 +130,11 @@ public class Cluster {
 		}
 		return true;
 	}
+
+    @Override
+    public String toString() {
+        return "Cluster [center=" + center + ", totalPointsCount=" + totalPointsCount + ", priceSum=" + priceSum
+                + ", deltaDaySum=" + deltaDaySum + ", deltaHourSum=" + deltaHourSum + ", quantitySum=" + quantitySum
+                + "]";
+    }
 }
