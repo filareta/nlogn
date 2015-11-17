@@ -28,7 +28,7 @@ public class KMeansJobRunner extends AbstractJobRunner {
 	private final static int TOTAL_POINTS_COUNT_IN_MOCK_DATA_SET = 
 			DEFAULT_CLUSTERS_COUNT * DEFAULT_POINTS_COUNT_IN_MOCK_DATA_SET;
 	
-	private final static int DEFAULT_OFFSET = 20;
+	private final static int DEFAULT_OFFSET = 10;
 	
 	private Cluster[] resClusters;
 	
@@ -100,7 +100,7 @@ public class KMeansJobRunner extends AbstractJobRunner {
 		// Generate @{code DEFAULT_CLUSTERS_COUNT} mock data sets and cluster it sequentially.
 		for (int i = 0; i < resClusters.length; i++) {
 			
-			int offset = DEFAULT_OFFSET + (i * 20);
+			int offset = DEFAULT_OFFSET + 20;
 			
 			Point4D randPoint = resClusters[i].getCenter();
 			
@@ -157,14 +157,10 @@ public class KMeansJobRunner extends AbstractJobRunner {
 			
 			tempDistance = resClusters[i].getCenter().distance(nextPoint);
 			
-			if (minDistance < 0) {
+			if (minDistance < 0 || minDistance > tempDistance) {
 				minDistance = tempDistance;
 				clusterIndex = i;
-			
-			} else if (minDistance > tempDistance) {
-				minDistance = tempDistance;
-				clusterIndex = i;
-			}
+			} 
 		}
 		return clusterIndex;
 	}
