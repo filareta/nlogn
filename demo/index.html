@@ -10,6 +10,7 @@
 <!-- JS Files -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 <script src="js/jquery.tools.min.js"></script>
+<script src="/lib/js/nirvana.js"></script>
 <script src="js/demo.js"></script>
 <script>
 $(function () {
@@ -105,7 +106,7 @@ $(document).ready(function () {
               <input type="text" style="width: 50px;"></input>
             </td>
             <td class="submit">
-              <button>Buy</button>
+              <button onclick="purchase(0);">Buy</button>
             </td>
           </tr>
           <tr class="row1">
@@ -140,7 +141,7 @@ $(document).ready(function () {
               <input type="text" style="width: 50px;"></input>
             </td>
             <td class="submit">
-              <button>Buy</button>
+              <button onclick="purchase(1);">Buy</button>
             </td>
           </tr>
           <tr class="row2">
@@ -175,7 +176,7 @@ $(document).ready(function () {
               <input type="text" style="width: 50px;"></input>
             </td>
             <td class="submit">
-              <button>Buy</button>
+              <button onclick="purchase(2);">Buy</button>
             </td>
           </tr>
           <tr class="row3">
@@ -210,7 +211,7 @@ $(document).ready(function () {
               <input type="text" style="width: 50px;"></input>
             </td>
             <td class="submit">
-              <button>Buy</button>
+              <button onclick="purchase(3);">Buy</button>
             </td>
           </tr>
           <tr class="row4">
@@ -227,10 +228,10 @@ $(document).ready(function () {
              DEC-15
             </td>
             <td class="sell">
-              142.29
+              22.29
             </td>
             <td class="buy">
-              141.61
+              21.61
             </td>
             <td class="change">
               1.01%
@@ -245,10 +246,94 @@ $(document).ready(function () {
               <input type="text" style="width: 50px;"></input>
             </td>
             <td class="submit">
-              <button>Buy</button>
+              <button onclick="purchase(4);">Buy</button>
             </td>
           </tr>
         </table>
+        <div class="recommendationsPanel" style="position: relative;" id="recommendationsPanel">
+          <h2>
+            People also bought:
+            <table class="recommendationsTable">
+              <tr class="titleRow">
+                <td class="name">
+                  Name
+                </td>
+                <td class="pricePerShare">
+                  Price per share
+                </td>
+                <td class="deltaDay">
+                  Price delta (day)
+                </td>
+                <td class="deltaHour">
+                  Price delta (hour)
+                </td>
+                <td class="quantity">
+                  Quantity
+                </td>
+              </tr>
+              <tr class="row0">
+                <td class="name">
+                </td>
+                <td class="pricePerShare">
+                </td>
+                <td class="deltaDay">
+                </td>
+                <td class="deltaHour">
+                </td>
+                <td class="quantity">
+                </td>
+              </tr>
+              <tr class="row1">
+                <td class="name">
+                </td>
+                <td class="pricePerShare">
+                </td>
+                <td class="deltaDay">
+                </td>
+                <td class="deltaHour">
+                </td>
+                <td class="quantity">
+                </td>
+              </tr>
+              <tr class="row2">
+                <td class="name">
+                </td>
+                <td class="pricePerShare">
+                </td>
+                <td class="deltaDay">
+                </td>
+                <td class="deltaHour">
+                </td>
+                <td class="quantity">
+                </td>
+              </tr>
+              <tr class="row3">
+                <td class="name">
+                </td>
+                <td class="pricePerShare">
+                </td>
+                <td class="deltaDay">
+                </td>
+                <td class="deltaHour">
+                </td>
+                <td class="quantity">
+                </td>
+              </tr>
+              <tr class="row4">
+                <td class="name">
+                </td>
+                <td class="pricePerShare">
+                </td>
+                <td class="deltaDay">
+                </td>
+                <td class="deltaHour">
+                </td>
+                <td class="quantity">
+                </td>
+              </tr>
+            </table>
+          </h2>
+        </div>
         <div id="prod_nav" style="display: block; position: relative;">
           <ul>
             <li><a><img src="img/demo/free_account.png" width="160" height="155" alt=""><strong>Demo Account</strong></a></li>

@@ -173,6 +173,19 @@ table tr:nth-child(even) {
 	background-color: #CCCCCC;
 }
 
+.recommendationsTable {
+	width: 75%;
+}
+
+.recommendationsTable .name {
+	width: 30%;
+}
+
+.recommendationsTable td {
+	width: 20%;
+	color: #444444;
+}
+
 .featured-column {}
 
 
