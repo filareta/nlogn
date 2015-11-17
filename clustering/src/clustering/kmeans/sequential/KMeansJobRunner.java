@@ -2,6 +2,7 @@ package clustering.kmeans.sequential;
 
 import java.util.Queue;
 
+import um.event.EventConstants;
 import cluster.Cluster;
 import cluster.Point4D;
 import clustering.kmeans.job.AbstractJobRunner;
@@ -17,52 +18,58 @@ import com.pcbsys.nirvana.client.nSessionFactory;
 import datagen.PointGenerator;
 
 public class KMeansJobRunner extends AbstractJobRunner {
-	/** The Nirvana realm name */
-	private static final String SESSION_ATTRIBUTE = "nhp://DESKTOP-M6E6SPT:9000";
-	
 	/** The final number of clusters, which the algorithm will generate. */
 	private final static int DEFAULT_CLUSTERS_COUNT = 4;
 	
 	/** The default number of points to be generated in each mock data set. */
-	private final static int DEFAULT_POINTS_COUNT_IN_MOCK_DATA_SET = 10;
+	private final static int DEFAULT_POINTS_COUNT_IN_MOCK_DATA_SET = 500;
 	
-	private final static int DEFAULT_OFFSET = 20;
+	/** The default number of points to be generated in each mock data set. */
+	private final static int TOTAL_POINTS_COUNT_IN_MOCK_DATA_SET = 
+			DEFAULT_CLUSTERS_COUNT * DEFAULT_POINTS_COUNT_IN_MOCK_DATA_SET;
+	
+	private final static int DEFAULT_OFFSET = 10;
 	
 	private Cluster[] resClusters;
 	
 	public static void main(String[] args) {
-		
+				
 		KMeansJobRunner jobRunner = new KMeansJobRunner();
+		
+		System.out.println("Setup clustering job.");
 		jobRunner.setup();
+		
+		System.out.println("Run clustering job.");
 		jobRunner.run();
 		
+		System.out.println("Obtaining result of clustering.");
 		Cluster[] resClusters = jobRunner.getResClusters();
 		
 		nSessionAttributes sessionAttr;
 		try {
-			sessionAttr = new nSessionAttributes(SESSION_ATTRIBUTE);
+			sessionAttr = new nSessionAttributes(EventConstants.SESSION_ATTRIBUTE);
 			nSession session = nSessionFactory.create(sessionAttr);
 			session.init();
 
-			nChannelAttributes channelAttr = new nChannelAttributes("mapperData");
+			nChannelAttributes channelAttr = new nChannelAttributes(EventConstants.KEY_MAPPER_DATA_CHANNEL);
 			nChannel chan = session.findChannel(channelAttr);
 			
 			nEventProperties clusters[] = new nEventProperties[resClusters.length];
 			for (int i = 0 ; i < resClusters.length; i++) {
 				clusters[i] = new nEventProperties();
-				clusters[i].put("center", resClusters[i].getCenter().toDoubleArray());
-				clusters[i].put("sum", resClusters[i].getSums());
-				clusters[i].put("pointsCount", resClusters[i].getTotalPointsCount());
+				clusters[i].put(EventConstants.KEY_CENTER, resClusters[i].getCenter().toDoubleArray());
+				clusters[i].put(EventConstants.KEY_SUM_ARRAY, resClusters[i].getSums());
+				clusters[i].put(EventConstants.KEY_POINTS_COUNT, resClusters[i].getTotalPointsCount());
 			}
 			
 			nEventProperties props = new nEventProperties();
-			props.put("clusters", clusters);
+			props.put(EventConstants.KEY_CLUSTERS, clusters);
 			
 			nConsumeEvent evt = new nConsumeEvent(props, "Clusters".getBytes());
 			
+			System.out.println("Publish result of clustering as an event.");
 			chan.publish(evt);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -74,6 +81,8 @@ public class KMeansJobRunner extends AbstractJobRunner {
 	@Override
 	public void setup() {
 		super.setup();
+		System.out.println("Final number of clusters to be generated: " + DEFAULT_CLUSTERS_COUNT);
+		System.out.println("Number of mock data points to be generated: " + TOTAL_POINTS_COUNT_IN_MOCK_DATA_SET);
 	}
 	
 	@Override
@@ -82,10 +91,16 @@ public class KMeansJobRunner extends AbstractJobRunner {
 		// Generate initial centroids for the algorithm.
 		resClusters = InitialDataGenerator.generateInitialClusters(DEFAULT_CLUSTERS_COUNT);
 		
+		System.out.println();
+		for (int i = 0; i < resClusters.length; i++) {
+			Point4D randPoint = resClusters[i].getCenter();
+			System.out.println("Initial center for the " + (i + 1) + "th cluster is: " + randPoint.toString());
+		}
+		
 		// Generate @{code DEFAULT_CLUSTERS_COUNT} mock data sets and cluster it sequentially.
-		for (int i = 0; i < DEFAULT_CLUSTERS_COUNT; i++) {
+		for (int i = 0; i < resClusters.length; i++) {
 			
-			int offset = DEFAULT_OFFSET + (i * 20);
+			int offset = DEFAULT_OFFSET + 20;
 			
 			Point4D randPoint = resClusters[i].getCenter();
 			
@@ -98,6 +113,12 @@ public class KMeansJobRunner extends AbstractJobRunner {
 				Point4D nextPoint = mockDataSet.poll();
 				assignPointToCluster(nextPoint);
 			}
+		}
+		
+		System.out.println();
+		for (int i = 0; i < resClusters.length; i++) {
+			Point4D centroid = resClusters[i].getCenter();
+			System.out.println("Final center for the " + (i + 1) + "th cluster is: " + centroid.toString());
 		}
 	}
 	
@@ -117,12 +138,10 @@ public class KMeansJobRunner extends AbstractJobRunner {
 		resClusters[clusterIndex].incrementDeltaHourSum(nextPoint.getDeltaHour());
 		resClusters[clusterIndex].incrementQuantitySum(nextPoint.getQuantity());
 		
-		// Calculate new center: mi + (1/ni)*( x - mi)
-		Point4D closestCentroid = resClusters[clusterIndex].getCenter();
-		
-		Point4D newCentroid = ((nextPoint.minus(closestCentroid))
-				.divide(totalPointsCount))
-				.add(closestCentroid);
+		Point4D newCentroid = new Point4D(resClusters[clusterIndex].getPriceSum()/totalPointsCount, 
+				resClusters[clusterIndex].getDeltaDaySum()/totalPointsCount, 
+				resClusters[clusterIndex].getDeltaHourSum()/totalPointsCount, 
+				resClusters[clusterIndex].getQuantitySum()/totalPointsCount);
 		
 		resClusters[clusterIndex].setCenter(newCentroid);
 	}
@@ -138,14 +157,10 @@ public class KMeansJobRunner extends AbstractJobRunner {
 			
 			tempDistance = resClusters[i].getCenter().distance(nextPoint);
 			
-			if (minDistance < 0) {
+			if (minDistance < 0 || minDistance > tempDistance) {
 				minDistance = tempDistance;
 				clusterIndex = i;
-			
-			} else if (minDistance > tempDistance) {
-				minDistance = tempDistance;
-				clusterIndex = i;
-			}
+			} 
 		}
 		return clusterIndex;
 	}
