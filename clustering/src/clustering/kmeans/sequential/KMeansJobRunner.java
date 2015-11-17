@@ -29,11 +29,16 @@ public class KMeansJobRunner extends AbstractJobRunner {
 	private Cluster[] resClusters;
 	
 	public static void main(String[] args) {
-		
+				
 		KMeansJobRunner jobRunner = new KMeansJobRunner();
+		
+		System.out.println("Setup clustering job.");
 		jobRunner.setup();
+		
+		System.out.println("Run clustering job.");
 		jobRunner.run();
 		
+		System.out.println("Obtaining result of clustering.");
 		Cluster[] resClusters = jobRunner.getResClusters();
 		
 		nSessionAttributes sessionAttr;
@@ -58,6 +63,7 @@ public class KMeansJobRunner extends AbstractJobRunner {
 			
 			nConsumeEvent evt = new nConsumeEvent(props, "Clusters".getBytes());
 			
+			System.out.println("Publish result of clustering as an event.");
 			chan.publish(evt);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,12 +120,10 @@ public class KMeansJobRunner extends AbstractJobRunner {
 		resClusters[clusterIndex].incrementDeltaHourSum(nextPoint.getDeltaHour());
 		resClusters[clusterIndex].incrementQuantitySum(nextPoint.getQuantity());
 		
-		// Calculate new center: mi + (1/ni)*( x - mi)
-		Point4D closestCentroid = resClusters[clusterIndex].getCenter();
-		
-		Point4D newCentroid = ((nextPoint.minus(closestCentroid))
-				.divide(totalPointsCount))
-				.add(closestCentroid);
+		Point4D newCentroid = new Point4D(resClusters[clusterIndex].getPriceSum()/totalPointsCount, 
+				resClusters[clusterIndex].getDeltaDaySum()/totalPointsCount, 
+				resClusters[clusterIndex].getDeltaHourSum()/totalPointsCount, 
+				resClusters[clusterIndex].getQuantitySum()/totalPointsCount);
 		
 		resClusters[clusterIndex].setCenter(newCentroid);
 	}
