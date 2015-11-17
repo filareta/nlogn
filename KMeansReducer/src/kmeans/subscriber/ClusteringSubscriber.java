@@ -23,9 +23,11 @@ public class ClusteringSubscriber {
 	    DataListener dataListener = new DataListener();
 	    chan.addSubscriber(dataListener);
 	    
-	    while(dataListener.receivedEventsCount() == 0) {		
+	    do {
 		Thread.sleep(WAIT_TIMEOUT);
-	    }
+	    } while(dataListener.receivedEventsCount() == 0);
+	    
+	    System.out.println("Stop monitoring events count!");
 	    
 	    dataListener.sendData();
 	} catch (Exception e) {
