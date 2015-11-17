@@ -18,9 +18,6 @@ import com.pcbsys.nirvana.client.nSessionFactory;
 import datagen.PointGenerator;
 
 public class KMeansJobRunner extends AbstractJobRunner {
-	/** The Nirvana realm name */
-	private static final String SESSION_ATTRIBUTE = "nhp://DESKTOP-M6E6SPT:9000";
-	
 	/** The final number of clusters, which the algorithm will generate. */
 	private final static int DEFAULT_CLUSTERS_COUNT = 4;
 	
@@ -41,11 +38,11 @@ public class KMeansJobRunner extends AbstractJobRunner {
 		
 		nSessionAttributes sessionAttr;
 		try {
-			sessionAttr = new nSessionAttributes(SESSION_ATTRIBUTE);
+			sessionAttr = new nSessionAttributes(EventConstants.SESSION_ATTRIBUTE);
 			nSession session = nSessionFactory.create(sessionAttr);
 			session.init();
 
-			nChannelAttributes channelAttr = new nChannelAttributes("mapperData");
+			nChannelAttributes channelAttr = new nChannelAttributes(EventConstants.KEY_MAPPER_DATA_CHANNEL);
 			nChannel chan = session.findChannel(channelAttr);
 			
 			nEventProperties clusters[] = new nEventProperties[resClusters.length];
@@ -63,7 +60,6 @@ public class KMeansJobRunner extends AbstractJobRunner {
 			
 			chan.publish(evt);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -3,6 +3,7 @@ package kmeans.publisher;
 import java.util.concurrent.locks.ReentrantLock;
 
 import kmeans.reducer.Reducer;
+import um.event.EventConstants;
 import cluster.Cluster;
 import cluster.Clustering;
 import cluster.Point4D;
@@ -12,7 +13,7 @@ import com.pcbsys.nirvana.client.nEventListener;
 import com.pcbsys.nirvana.client.nEventProperties;
 
 public class DataListener implements nEventListener {
-    private final int EVENT_LIMIT_COUNT = 1;
+    private final static int EVENT_LIMIT_COUNT = 1;
     
     private ClusteringPublisher publisher;
     private Reducer reducer;
@@ -31,13 +32,13 @@ public class DataListener implements nEventListener {
 	lock.lock();
 	
 	nEventProperties props = event.getProperties();
-	nEventProperties clusters[] = (nEventProperties[]) props.get("clusters");
+	nEventProperties clusters[] = (nEventProperties[]) props.get(EventConstants.KEY_CLUSTERS);
 	Clustering clustering = new Clustering();
 	
 	for(int i = 0; i < clusters.length; i++) {
-	    double[] centerValues = clusters[i].getDoubleArray("center");
-	    double[] sums = clusters[i].getDoubleArray("sum");
-	    int totalCount = clusters[i].getInt("pointsCount");
+	    double[] centerValues = clusters[i].getDoubleArray(EventConstants.KEY_CENTER);
+	    double[] sums = clusters[i].getDoubleArray(EventConstants.KEY_SUM_ARRAY);
+	    int totalCount = clusters[i].getInt(EventConstants.KEY_POINTS_COUNT);
 	    
 	    Point4D center = new Point4D(centerValues[0], centerValues[1], centerValues[2], (int) centerValues[3]);
 	    Cluster cluster = new Cluster(center, totalCount, sums[0], sums[1], sums[2], (int) sums[3]);

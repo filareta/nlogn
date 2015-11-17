@@ -1,5 +1,6 @@
 package kmeans.publisher;
 
+import um.event.EventConstants;
 import cluster.Cluster;
 import cluster.Clustering;
 
@@ -12,15 +13,13 @@ import com.pcbsys.nirvana.client.nSessionAttributes;
 import com.pcbsys.nirvana.client.nSessionFactory;
 
 public class ClusteringPublisher {
-    public static final String SESSION_ATTRIBUTE = "nhp://DESKTOP-M6E6SPT:9000";
-
     public void publish(Clustering clustering) {
 	try {
-	    nSessionAttributes sessionAttr = new nSessionAttributes(SESSION_ATTRIBUTE);
+	    nSessionAttributes sessionAttr = new nSessionAttributes(EventConstants.SESSION_ATTRIBUTE);
 	    nSession session = nSessionFactory.create(sessionAttr);
 	    session.init();
 
-	    nChannelAttributes channelAttr = new nChannelAttributes("clustering");
+	    nChannelAttributes channelAttr = new nChannelAttributes(EventConstants.KEY_CLUSTERING_CAHNNEL);
 	    nChannel chan = session.findChannel(channelAttr);
 
 	    nEventProperties clusters[] = new nEventProperties[clustering.size()];
@@ -30,16 +29,16 @@ public class ClusteringPublisher {
 
 	    int i = 0;
 	    for (Cluster cluster : clustering) {
-		clusters[i].put("pricePerShare", cluster.getCenter().getPricePerShare());
-		clusters[i].put("deltaDay", cluster.getCenter().getDeltaDay());
-		clusters[i].put("deltaHour", cluster.getCenter().getDeltaHour());
-		clusters[i].put("quantity", cluster.getCenter().getQuantity());
+		clusters[i].put(EventConstants.KEY_PRICE_PER_SHARE, cluster.getCenter().getPricePerShare());
+		clusters[i].put(EventConstants.KEY_DELTA_DAY, cluster.getCenter().getDeltaDay());
+		clusters[i].put(EventConstants.KEY_DELTA_HOUR, cluster.getCenter().getDeltaHour());
+		clusters[i].put(EventConstants.KEY_QUANTITY, cluster.getCenter().getQuantity());
 		i++;
 	    }
 
 	    nEventProperties props = new nEventProperties();
-	    props.put("clusters", clusters);
-	    nConsumeEvent evt = new nConsumeEvent(props,"Clustering".getBytes());
+	    props.put(EventConstants.KEY_CLUSTERS, clusters);
+	    nConsumeEvent evt = new nConsumeEvent(props, EventConstants.KEY_CLUSTERING.getBytes());
 	    chan.publish(evt);
 	} catch (Exception e) {
 	    e.printStackTrace();
