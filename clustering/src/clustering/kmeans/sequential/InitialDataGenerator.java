@@ -23,10 +23,8 @@ public final class InitialDataGenerator {
 		int minQuantity = 100;
 		int maxQuantity = 300;
 		
-		long seed = 2;
-		
 		Point4D randPoint;
-		Random randGenerator =  new Random(3);
+		Random randGenerator =  new Random();
 		
 		for(int i = 0; i < clustersCount; i++) {
 			

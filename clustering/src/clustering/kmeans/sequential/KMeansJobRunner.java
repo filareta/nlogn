@@ -91,6 +91,7 @@ public class KMeansJobRunner extends AbstractJobRunner {
 		// Generate initial centroids for the algorithm.
 		resClusters = InitialDataGenerator.generateInitialClusters(DEFAULT_CLUSTERS_COUNT);
 		
+		System.out.println();
 		for (int i = 0; i < resClusters.length; i++) {
 			Point4D randPoint = resClusters[i].getCenter();
 			System.out.println("Initial center for the " + (i + 1) + "th cluster is: " + randPoint.toString());
@@ -114,6 +115,7 @@ public class KMeansJobRunner extends AbstractJobRunner {
 			}
 		}
 		
+		System.out.println();
 		for (int i = 0; i < resClusters.length; i++) {
 			Point4D centroid = resClusters[i].getCenter();
 			System.out.println("Final center for the " + (i + 1) + "th cluster is: " + centroid.toString());
