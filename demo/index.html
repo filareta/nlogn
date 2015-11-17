@@ -1,0 +1,375 @@
+<!DOCTYPE HTML>
+<head>
+<title>Business Core</title>
+<meta charset="utf-8">
+<!-- Google Fonts -->
+<link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+<!-- CSS Files -->
+<link rel="stylesheet" type="text/css" media="screen" href="css/style.css">
+<link rel="stylesheet" type="text/css" media="screen" href="menu/css/simple_menu.css">
+<!-- JS Files -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+<script src="js/jquery.tools.min.js"></script>
+<script src="js/demo.js"></script>
+<script>
+$(function () {
+    $("#prod_nav ul").tabs("#panes > div", {
+        effect: 'fade',
+        fadeOutSpeed: 400
+    });
+});
+</script>
+<script>
+$(document).ready(function () {
+    $(".pane-list li").click(function () {
+        window.location = $(this).find("a").attr("href");
+        return false;
+    });
+});
+</script>
+</head>
+<body onload="setupTimeouts();">
+<div class="header">
+  <div id="site_title"><a href="index.html"><img src="img/logo.png" alt=""></a></div>
+  <!-- Main Menu -->
+  <ol id="menu">
+    <li class="active_menu_item"><a href="index.html">Home</a>
+      <!-- sub menu -->
+      <ol>
+        <li><a href="nivo.html">Nivo Slider</a></li>
+        <li><a href="ei-slider.html">EI Slider</a></li>
+        <li><a href="fullscreen-gallery.html">Fullscreen Slider</a></li>
+        <li><a href="image-frontpage.html">Static Image</a></li>
+      </ol>
+    </li>
+    <!-- END sub menu -->
+    <li><a href="#">Pages</a>
+      <!-- sub menu -->
+      <ol>
+        <li><a href="magazine.html">Magazine</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="full-width.html">Full Width Page</a></li>
+        <li><a href="columns.html">Columns</a></li>
+      </ol>
+    </li>
+    <!-- END sub menu -->
+    <li><a href="elements.html">Elements</a></li>
+    <li><a href="#">Galleries</a>
+      <!-- sub menu -->
+      <ol>
+        <li><a href="gallery-simple.html">Simple</a></li>
+        <li><a href="portfolio.html">Filterable</a></li>
+        <li><a href="gallery-fader.html">Fade Scroll</a></li>
+        <li><a href="video.html">Video</a></li>
+        <li class="last"><a href="photogrid.html">PhotoGrid</a></li>
+      </ol>
+    </li>
+    <!-- END sub menu -->
+    <li><a href="contact.html">Contact</a></li>
+  </ol>
+</div>
+<!-- END header -->
+<div id="container">
+  <!-- tab panes -->
+  <div id="prod_wrapper">
+    <div id="panes">
+      <div>
+        <table class="sharesTable">
+          <tr class="titleRow">
+            <td class="market">
+              Name
+            </td>
+            <td class="icons">
+            </td>
+            <td class="period">
+             Period
+            </td>
+            <td class="sell">
+              Sell
+            </td>
+            <td class="buy">
+              Buy
+            </td>
+            <td class="change">
+              Change
+            </td>
+            <td class="high">
+              High
+            </td>
+            <td class="low">
+              Low
+            </td>
+          </tr>
+          <tr class="row0">
+            <td class="market">
+              <img src="images/play.png"/>
+              Valeant
+            </td>
+            <td class="icons">
+              <img id="chartIcon" src="images/chart_line.png" class="chartIcon" style="margin-left: 2px; margin-right: 2px;"/>
+              <img id="chartIcon" src="images/chart_favs.png" class="chartIcon" style="margin-left: 2px; margin-right: 2px;"/>
+              <img id="chartIcon" src="images/chart_pie.png" class="chartIcon" style="margin-left: 2px; margin-right: 2px;"/>
+            </td>
+            <td class="period">
+             DEC-15
+            </td>
+            <td class="sell">
+              75.57
+            </td>
+            <td class="buy">
+              75.37
+            </td>
+            <td class="change">
+              2.30%
+            </td>
+            <td class="high">
+              75.92
+            </td>
+            <td class="low">
+              75.16
+            </td>
+            <td class="quantity">
+              <input type="text" style="width: 50px;"></input>
+            </td>
+            <td class="submit">
+              <button>Buy</button>
+            </td>
+          </tr>
+          <tr class="row1">
+            <td class="market">
+              <img src="images/play.png"/>
+              Box
+            </td>
+            <td class="icons">
+              <img id="chartIcon" src="images/chart_line.png" class="chartIcon" style="margin-left: 2px; margin-right: 2px;"/>
+              <img id="chartIcon" src="images/chart_favs.png" class="chartIcon" style="margin-left: 2px; margin-right: 2px;"/>
+              <img id="chartIcon" src="images/chart_pie.png" class="chartIcon" style="margin-left: 2px; margin-right: 2px;"/>
+            </td>
+            <td class="period">
+             DEC-15
+            </td>
+            <td class="sell">
+              12.57
+            </td>
+            <td class="buy">
+              12.25
+            </td>
+            <td class="change">
+              -3.32%
+            </td>
+            <td class="high">
+              12.99
+            </td>
+            <td class="low">
+              12.08
+            </td>
+            <td class="quantity">
+              <input type="text" style="width: 50px;"></input>
+            </td>
+            <td class="submit">
+              <button>Buy</button>
+            </td>
+          </tr>
+          <tr class="row2">
+            <td class="market">
+              <img src="images/play.png"/>
+              GoPro
+            </td>
+            <td class="icons">
+              <img id="chartIcon" src="images/chart_line.png" class="chartIcon" style="margin-left: 2px; margin-right: 2px;"/>
+              <img id="chartIcon" src="images/chart_favs.png" class="chartIcon" style="margin-left: 2px; margin-right: 2px;"/>
+              <img id="chartIcon" src="images/chart_pie.png" class="chartIcon" style="margin-left: 2px; margin-right: 2px;"/>
+            </td>
+            <td class="period">
+             DEC-15
+            </td>
+            <td class="sell">
+              21.21
+            </td>
+            <td class="buy">
+              21.08
+            </td>
+            <td class="change">
+              -8.60%
+            </td>
+            <td class="high">
+              22.09
+            </td>
+            <td class="low">
+              21.06
+            </td>
+            <td class="quantity">
+              <input type="text" style="width: 50px;"></input>
+            </td>
+            <td class="submit">
+              <button>Buy</button>
+            </td>
+          </tr>
+          <tr class="row3">
+            <td class="market">
+              <img src="images/play.png"/>
+              SunEdison
+            </td>
+            <td class="icons">
+              <img id="chartIcon" src="images/chart_line.png" class="chartIcon" style="margin-left: 2px; margin-right: 2px;"/>
+              <img id="chartIcon" src="images/chart_favs.png" class="chartIcon" style="margin-left: 2px; margin-right: 2px;"/>
+              <img id="chartIcon" src="images/chart_pie.png" class="chartIcon" style="margin-left: 2px; margin-right: 2px;"/>
+            </td>
+            <td class="period">
+             DEC-15
+            </td>
+            <td class="sell">
+              4.93
+            </td>
+            <td class="buy">
+              4.90
+            </td>
+            <td class="change">
+              8.37%
+            </td>
+            <td class="high">
+              4.96
+            </td>
+            <td class="low">
+              4.82
+            </td>
+            <td class="quantity">
+              <input type="text" style="width: 50px;"></input>
+            </td>
+            <td class="submit">
+              <button>Buy</button>
+            </td>
+          </tr>
+          <tr class="row4">
+            <td class="market">
+              <img src="images/play.png"/>
+              Betsson
+            </td>
+            <td class="icons">
+              <img id="chartIcon" src="images/chart_line.png" class="chartIcon" style="margin-left: 2px; margin-right: 2px;"/>
+              <img id="chartIcon" src="images/chart_favs.png" class="chartIcon" style="margin-left: 2px; margin-right: 2px;"/>
+              <img id="chartIcon" src="images/chart_pie.png" class="chartIcon" style="margin-left: 2px; margin-right: 2px;"/>
+            </td>
+            <td class="period">
+             DEC-15
+            </td>
+            <td class="sell">
+              142.29
+            </td>
+            <td class="buy">
+              141.61
+            </td>
+            <td class="change">
+              1.01%
+            </td>
+            <td class="high">
+              143.22
+            </td>
+            <td class="low">
+              141.13
+            </td>
+            <td class="quantity">
+              <input type="text" style="width: 50px;"></input>
+            </td>
+            <td class="submit">
+              <button>Buy</button>
+            </td>
+          </tr>
+        </table>
+        <div id="prod_nav" style="display: block; position: relative;">
+          <ul>
+            <li><a href="#1"> <img src="img/demo/1.jpg" width="160" alt=""><strong>Class aptent</strong></a></li>
+            <li><a href="#2"><img src="img/demo/2.jpg" width="160" alt=""><strong>Sed dui risus</strong></a></li>
+            <li><a href="#3"><img src="img/demo/3.jpg" width="160" alt=""><strong>Pellentesque quis</strong></a></li>
+            <li><a href="#4"><img src="img/demo/4.jpg" width="160" alt=""><strong>Mauris elementum</strong></a></li>
+            <li><a href="#5"><img src="img/demo/5.jpg" width="160" alt=""><strong>Cras et malesuada</strong></a></li>
+          </ul>
+        </div>
+      </div>
+      <div> <img src="img/demo/2.jpg" alt="">
+        <h2>Meet Our Team</h2>
+        <p>Nulla hendrerit commodo tortor, vitae elementum magna convallis nec. Nam tempor nibh a purus aliquam et adipiscing elit gravida. Ut vitae nunc a libero volutpat gravida. Nullam egestas mi sit amet dui scelerisque eu laoreet nisi ultrices. Ut vitae nunc a libero volutpat gravida. Nam tempor nibh a purus aliquam. </p>
+        <p style="text-align:right; margin-right: 16px"><a href="#" class="button">More Info</a> <a href="#" class="button">Buy Now</a></p>
+      </div>
+      <div> <img src="img/demo/3.jpg" alt="">
+        <h2>Mauris elementum</h2>
+        <p>Nulla hendrerit commodo tortor, vitae elementum magna convallis nec. Nam tempor nibh a purus aliquam et adipiscing elit gravida. Ut vitae nunc a libero volutpat gravida. Nullam egestas mi sit amet dui scelerisque eu laoreet nisi ultrices. Ut vitae nunc a libero volutpat gravida. Nam tempor nibh a purus aliquam. </p>
+        <p style="text-align:right; margin-right: 16px"><a href="#" class="button">More Info</a> <a href="#" class="button">Buy Now</a></p>
+      </div>
+      <div> <img src="img/demo/4.jpg" alt="">
+        <h2>Nam tempor nibh</h2>
+        <p>Nulla hendrerit commodo tortor, vitae elementum magna convallis nec. Nam tempor nibh a purus aliquam et adipiscing elit gravida. Ut vitae nunc a libero volutpat gravida. Nullam egestas mi sit amet dui scelerisque eu laoreet nisi ultrices. Ut vitae nunc a libero volutpat gravida. Nam tempor nibh a purus aliquam. </p>
+        <p style="text-align:right; margin-right: 16px"><a href="#" class="button">More Info</a> <a href="#" class="button">Buy Now</a></p>
+      </div>
+      <div> <img src="img/demo/5.jpg" alt="">
+        <h2>Supercar</h2>
+        <p>Nulla hendrerit commodo tortor, vitae elementum magna convallis nec. Nam tempor nibh a purus aliquam et adipiscing elit gravida. Ut vitae nunc a libero volutpat gravida. Nullam egestas mi sit amet dui scelerisque eu laoreet nisi ultrices. Ut vitae nunc a libero volutpat gravida. Nam tempor nibh a purus aliquam. </p>
+        <p style="text-align:right; margin-right: 16px"><a href="#" class="button">More Info</a> <a href="#" class="button">Buy Now</a></p>
+      </div>
+    </div>
+    <!-- END tab panes -->
+    <br clear="all">
+    <!-- navigator -->
+    <!-- END navigator -->
+  </div>
+  <!-- END prod wrapper -->
+  <div style="clear:both"></div>
+  <div class="one-third">
+    <h2>Business Solutions</h2>
+    <p>Nulla hendrerit commodo tortor, vitae elementum magna convallis nec. Nam tempor nibh a purus aliquam et adipiscing elit gravida.</p>
+    <p style="text-align:right; margin-right: 15px"><a href="#" class="button_small">Find out more</a></p>
+  </div>
+  <div class="one-third">
+    <h2>Become a Partner</h2>
+    <p>Nulla hendrerit commodo tortor, vitae elementum magna convallis nec. Nam tempor nibh a purus aliquam et adipiscing elit gravida.</p>
+    <p style="text-align:right; margin-right: 15px"><a href="#" class="button_small">Contact Us Today</a></p>
+  </div>
+  <div class="one-third last">
+    <h2>Latest News</h2>
+    <p>Nulla hendrerit commodo tortor, vitae elementum magna convallis nec. Nam tempor nibh a purus aliquam et adipiscing elit gravida.</p>
+    <p style="text-align:right; margin-right: 15px"><a href="#" class="button_small">Read Article</a></p>
+  </div>
+  <div style="clear:both"></div>
+  <div class="box_highlight" style="margin-top:40px">
+    <h2 style="text-align:center">Some kind of sales pitch goes here!</h2>
+  </div>
+  <div style="clear:both; height: 20px"></div>
+</div>
+<!-- END container -->
+<div id="footer">
+  <!-- First Column -->
+  <div class="one-fourth">
+    <h3>Useful Links</h3>
+    <ul class="footer_links">
+      <li><a href="#">Lorem Ipsum</a></li>
+      <li><a href="#">Ellem Ciet</a></li>
+      <li><a href="#">Currivitas</a></li>
+      <li><a href="#">Salim Aritu</a></li>
+    </ul>
+  </div>
+  <!-- Second Column -->
+  <div class="one-fourth">
+    <h3>Terms</h3>
+    <ul class="footer_links">
+      <li><a href="#">Lorem Ipsum</a></li>
+      <li><a href="#">Ellem Ciet</a></li>
+      <li><a href="#">Currivitas</a></li>
+      <li><a href="#">Salim Aritu</a></li>
+    </ul>
+  </div>
+  <!-- Third Column -->
+  <div class="one-fourth">
+    <h3>Information</h3>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sit amet enim id dui tincidunt vestibulum rhoncus a felis.
+    <div id="social_icons"> Theme by <a href="http://www.csstemplateheaven.com">CssTemplateHeaven</a><br>
+      Photos © <a href="http://dieterschneider.net">Dieter Schneider</a> </div>
+  </div>
+  <!-- Fourth Column -->
+  <div class="one-fourth last">
+    <h3>Socialize</h3>
+    <img src="img/icon_fb.png" alt=""> <img src="img/icon_twitter.png" alt=""> <img src="img/icon_in.png" alt=""> </div>
+  <div style="clear:both"></div>
+</div>
+<!-- END footer -->
+</body>
+</html>
