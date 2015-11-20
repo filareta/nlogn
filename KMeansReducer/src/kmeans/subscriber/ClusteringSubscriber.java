@@ -10,7 +10,6 @@ import com.pcbsys.nirvana.client.nSessionAttributes;
 import com.pcbsys.nirvana.client.nSessionFactory;
 
 public class ClusteringSubscriber {
-    private static int WAIT_TIMEOUT = 30000;
     
     public void subscribe() {
 	try {
@@ -23,13 +22,9 @@ public class ClusteringSubscriber {
 	    DataListener dataListener = new DataListener();
 	    chan.addSubscriber(dataListener);
 	    
-	    do {
-		Thread.sleep(WAIT_TIMEOUT);
-	    } while(dataListener.receivedEventsCount() == 0);
-	    
-	    System.out.println("Stop monitoring events count!");
-	    
-	    dataListener.sendData();
+	    while(true) {
+		dataListener.monitorEvents();		
+	    }
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}

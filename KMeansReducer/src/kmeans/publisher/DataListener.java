@@ -1,5 +1,6 @@
 package kmeans.publisher;
 
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 import kmeans.reducer.Reducer;
@@ -13,16 +14,19 @@ import com.pcbsys.nirvana.client.nEventListener;
 import com.pcbsys.nirvana.client.nEventProperties;
 
 public class DataListener implements nEventListener {
-    private final static int EVENT_LIMIT_COUNT = 3;
+    private static final int EVENT_TRESHOLD_COUNT = 3;
+    private static final int MINUTES_TO_WAIT = 5;
     
     private ClusteringPublisher publisher;
     private Reducer reducer;
     private ReentrantLock lock;
     private volatile int receivedEvents;
+    private Condition pushClustering;
 
     public DataListener() {
 	publisher = new ClusteringPublisher();
 	lock = new ReentrantLock();
+	pushClustering = lock.newCondition();
 	initReducer();
     }
 
@@ -54,33 +58,30 @@ public class DataListener implements nEventListener {
 	
 	    receivedEvents++;
 	    System.out.println("Event received, total events count " + receivedEvents);
-	
-	    if (receivedEvents == EVENT_LIMIT_COUNT) {
-		System.out.println("Event limit count reached! Publish clustering!");
-		publisher.publish(reducer.getClustering());
-		initReducer();
-	    }
+	    pushClustering.signalAll();
 	} finally {
 	    lock.unlock();
 	}
     }
     
-    public void sendData() {
+    public void monitorEvents() {
 	lock.lock();
 	
 	try {
-	    System.out.println("Send data, received events count " + receivedEvents);
-	    if(receivedEvents > 0) {
-		System.out.println("Result still available!");
-		publisher.publish(reducer.getClustering());
-		initReducer();
+	    while(receivedEvents < EVENT_TRESHOLD_COUNT) {
+		try {
+		    pushClustering.await();
+		} catch (InterruptedException e) {
+		    System.out.println("Waiting interrupted!");
+		}
 	    }
+	
+	    System.out.println("Stop monitoring events count!");	  
+	    System.out.println("Send data, received events count " + receivedEvents);
+	    publisher.publish(reducer.getClustering());
+	    initReducer();
 	} finally {
 	    lock.unlock();
 	}
-    }
-    
-    public int receivedEventsCount() {
-	return receivedEvents;
     }
 }
