@@ -80,8 +80,4 @@ public class Reducer {
     public Clustering getClustering() {
 	return resultClustering;
     }
-    
-    public boolean isResultAvailable() {
-	return resultClustering != null;
-    }
 }

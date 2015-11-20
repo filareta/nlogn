@@ -35,45 +35,49 @@ public class DataListener implements nEventListener {
     public void go(nConsumeEvent event) {
 	lock.lock();
 	
-	nEventProperties props = event.getProperties();
-	nEventProperties clusters[] = (nEventProperties[]) props.get(EventConstants.KEY_CLUSTERS);
-	Clustering clustering = new Clustering();
+	try {
+	    nEventProperties props = event.getProperties();
+	    nEventProperties clusters[] = (nEventProperties[]) props.get(EventConstants.KEY_CLUSTERS);
+	    Clustering clustering = new Clustering();
 	
-	for(int i = 0; i < clusters.length; i++) {
-	    double[] centerValues = clusters[i].getDoubleArray(EventConstants.KEY_CENTER);
-	    double[] sums = clusters[i].getDoubleArray(EventConstants.KEY_SUM_ARRAY);
-	    int totalCount = clusters[i].getInt(EventConstants.KEY_POINTS_COUNT);
+	    for(int i = 0; i < clusters.length; i++) {
+		double[] centerValues = clusters[i].getDoubleArray(EventConstants.KEY_CENTER);
+		double[] sums = clusters[i].getDoubleArray(EventConstants.KEY_SUM_ARRAY);
+		int totalCount = clusters[i].getInt(EventConstants.KEY_POINTS_COUNT);
 	    
-	    Point4D center = new Point4D(centerValues[0], centerValues[1], centerValues[2], (int) centerValues[3]);
-	    Cluster cluster = new Cluster(center, totalCount, sums[0], sums[1], sums[2], (int) sums[3]);
-	    clustering.addCluster(cluster);
+		Point4D center = new Point4D(centerValues[0], centerValues[1], centerValues[2], (int) centerValues[3]);
+		Cluster cluster = new Cluster(center, totalCount, sums[0], sums[1], sums[2], (int) sums[3]);
+		clustering.addCluster(cluster);
+	    }
+	
+	    reducer.addClustering(clustering);
+	
+	    receivedEvents++;
+	    System.out.println("Event received, total events count " + receivedEvents);
+	
+	    if (receivedEvents == EVENT_LIMIT_COUNT) {
+		System.out.println("Event limit count reached! Publish clustering!");
+		publisher.publish(reducer.getClustering());
+		initReducer();
+	    }
+	} finally {
+	    lock.unlock();
 	}
-	
-	reducer.addClustering(clustering);
-	
-	receivedEvents++;
-	System.out.println("Event received, total events count " + receivedEvents);
-	
-	if (receivedEvents == EVENT_LIMIT_COUNT) {
-	    System.out.println("Event limit count reached! Publish clustering!");
-	    publisher.publish(reducer.getClustering());
-	    initReducer();
-	}
-	
-	lock.unlock();
     }
     
     public void sendData() {
 	lock.lock();
 	
-	System.out.println("Send data, received events count " + receivedEvents);
-	if(reducer.isResultAvailable()) {
-	    System.out.println("Result still available!");
-	    publisher.publish(reducer.getClustering());
-	    initReducer();
+	try {
+	    System.out.println("Send data, received events count " + receivedEvents);
+	    if(receivedEvents > 0) {
+		System.out.println("Result still available!");
+		publisher.publish(reducer.getClustering());
+		initReducer();
+	    }
+	} finally {
+	    lock.unlock();
 	}
-	
-	lock.unlock();
     }
     
     public int receivedEventsCount() {
