@@ -1,5 +1,6 @@
 package kmeans.publisher;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -16,6 +17,7 @@ import com.pcbsys.nirvana.client.nEventProperties;
 public class DataListener implements nEventListener {
     private static final int EVENT_TRESHOLD_COUNT = 3;
     private static final int MINUTES_TO_WAIT = 5;
+
     
     private ClusteringPublisher publisher;
     private Reducer reducer;
@@ -66,20 +68,27 @@ public class DataListener implements nEventListener {
     
     public void monitorEvents() {
 	lock.lock();
+	System.out.println("Start monitoring received events.");
 	
 	try {
-	    while(receivedEvents < EVENT_TRESHOLD_COUNT) {
+	    boolean isWaitLimitReached = false;
+	    while(receivedEvents < EVENT_TRESHOLD_COUNT && !isWaitLimitReached) {
 		try {
-		    pushClustering.await();
+		    System.out.println("Waiting for signal for received event.");
+		    isWaitLimitReached = !pushClustering.await(MINUTES_TO_WAIT, TimeUnit.MINUTES);
+		    System.out.println("Waiting finished. Time limit reached: " + isWaitLimitReached);
 		} catch (InterruptedException e) {
 		    System.out.println("Waiting interrupted!");
 		}
 	    }
 	
-	    System.out.println("Stop monitoring events count!");	  
-	    System.out.println("Send data, received events count " + receivedEvents);
-	    publisher.publish(reducer.getClustering());
-	    initReducer();
+	    System.out.println("Stop monitoring received events count.");	  
+	    System.out.println("Send clustering data, received events count " + receivedEvents);
+	    
+	    if(receivedEvents > 0) {
+		publisher.publish(reducer.getClustering());
+		initReducer();
+	    }
 	} finally {
 	    lock.unlock();
 	}
