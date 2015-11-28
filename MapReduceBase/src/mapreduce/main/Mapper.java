@@ -11,9 +11,10 @@ import mapreduce.impl.map.SortingMapper;
 public class Mapper {
     public static void main(String[] args) throws InterruptedException {
         BaseMapper mapper = new SortingMapper();
-        MockDataGenerator mockData = new SortingMockData();
-
-        mockData.generateData();
+        mapper.init();
+//        MockDataGenerator mockData = new SortingMockData();
+//
+//        mockData.generateData();
 
         synchronized (mapper) {
             mapper.wait();

@@ -1,6 +1,6 @@
 package mapreduce.impl.map;
 
-import com.pcbsys.nirvana.client.nConsumeEvent;
+import com.pcbsys.nirvana.client.*;
 import data.SortingMockData;
 import mapreduce.base.map.BaseMapper;
 
@@ -28,7 +28,16 @@ public class SortingMapper extends BaseMapper {
 
     @Override
     protected void submitResults() {
+        nEventProperties props = new nEventProperties();
+        props.put("numbers", numbers);
+        props.put("length", SortingMockData.NUMBER_OF_EVENTS);
+        nConsumeEvent event = new nConsumeEvent(props, "mapperData".getBytes());
 
+        try {
+            outputChannel.publish(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private int insertAt(int[] a, int key) {

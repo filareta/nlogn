@@ -19,7 +19,7 @@ public abstract class BaseTask implements nEventListener {
     protected int eventsNumber = 0;
     protected int maxEventsNumber = 1000;
 
-    public BaseTask() {
+    public void init() {
         try {
             nSessionAttributes inAttr = new nSessionAttributes(inputRealmName);
             nSessionAttributes outAttr = new nSessionAttributes(outputRealmName);

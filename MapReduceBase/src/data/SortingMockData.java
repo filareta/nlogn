@@ -8,7 +8,7 @@ import java.util.Random;
  * Created by vlm on 11/22/2015.
  */
 public class SortingMockData implements MockDataGenerator {
-    public static int NUMBER_OF_EVENTS = 100000;
+    public static int NUMBER_OF_EVENTS = 200000;
     private int eventsNumber = NUMBER_OF_EVENTS;
 
     @Override

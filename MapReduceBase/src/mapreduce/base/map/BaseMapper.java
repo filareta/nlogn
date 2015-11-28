@@ -22,8 +22,14 @@ public abstract class BaseMapper extends BaseTask {
             eventsNumber++;
             if (eventsNumber >= maxEventsNumber) {
                 submitResults();
+
                 System.out.println("Mapper end -> " + System.currentTimeMillis());
                 System.out.println("Processing took -> " + (System.currentTimeMillis() - startTime));
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 notifyAll();
             }
         }
