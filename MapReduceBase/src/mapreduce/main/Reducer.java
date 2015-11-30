@@ -1,6 +1,7 @@
 package mapreduce.main;
 
 import mapreduce.base.reduce.BaseReducer;
+import mapreduce.impl.reduce.CorrelationReducer;
 import mapreduce.impl.reduce.SortingReducer;
 
 /**
@@ -8,7 +9,7 @@ import mapreduce.impl.reduce.SortingReducer;
  */
 public class Reducer {
     public static void main(String[] args) throws InterruptedException {
-        BaseReducer reducer = new SortingReducer();
+        BaseReducer reducer = new CorrelationReducer();
         reducer.init();
 
         synchronized (reducer) {

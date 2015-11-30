@@ -1,5 +1,6 @@
 package mapreduce.main;
 
+import data.CorrelationMockData;
 import data.MockDataGenerator;
 import data.SortingMockData;
 
@@ -9,7 +10,7 @@ import data.SortingMockData;
 public class MockData {
 
     public static void main(String[] args) {
-        MockDataGenerator mockData = new SortingMockData();
+        MockDataGenerator mockData = new CorrelationMockData();
         mockData.generateData();
     }
 }

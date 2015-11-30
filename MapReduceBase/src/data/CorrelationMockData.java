@@ -5,15 +5,16 @@ import com.pcbsys.nirvana.client.*;
 import java.util.Random;
 
 /**
- * Created by vlm on 11/22/2015.
+ * Created by vlm on 11/29/2015.
  */
-public class SortingMockData implements MockDataGenerator {
-    public static int NUMBER_OF_EVENTS = 1000000;
-    private int eventsNumber = NUMBER_OF_EVENTS;
+public class CorrelationMockData implements MockDataGenerator {
+    public static final int NUMBER_OF_COMPANIES = 1000;
+    public static final int NUMBER_OF_INPUTS = 10000;
 
     @Override
     public void generateData() {
         nSessionAttributes inAttr = null;
+        double[] nextInput = new double[NUMBER_OF_COMPANIES];
         try {
             inAttr = new nSessionAttributes("nsp://localhost:9000");
             nSession inputSession = nSessionFactory.create(inAttr);
@@ -26,10 +27,13 @@ public class SortingMockData implements MockDataGenerator {
             nConsumeEvent event;
             Random random = new Random();
 
-            for (int i = 0; i < eventsNumber; i++) {
+            for (int i = 0; i < NUMBER_OF_INPUTS; i++) {
+                for (int j = 0; j < NUMBER_OF_COMPANIES; j++) {
+                    nextInput[j] = random.nextDouble() * 50;
+                }
                 props = new nEventProperties();
-                props.put("number", random.nextInt());
-                event = new nConsumeEvent(props, "randomNumber".getBytes());
+                props.put("prices", nextInput);
+                event = new nConsumeEvent(props, "sharePrices".getBytes());
 
                 inputChannel.publish(event);
             }
