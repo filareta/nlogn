@@ -8,9 +8,9 @@ import mapreduce.base.reduce.BaseReducer;
  * Created by vlm on 11/29/2015.
  */
 public class CorrelationReducer extends BaseReducer {
-    private final int NUMBER_OF_MAPPERS = 1;
+    private final int NUMBER_OF_MAPPERS = 4;
     private final int companiesNum = CorrelationMockData.NUMBER_OF_COMPANIES;
-    private final int priceInputsNum = CorrelationMockData.NUMBER_OF_INPUTS;
+    private final int priceInputsNum = CorrelationMockData.NUMBER_OF_INPUTS * NUMBER_OF_MAPPERS;
     private final double[] sum_xy;
     private final double[] sum_x;
     private double[][] covariance;

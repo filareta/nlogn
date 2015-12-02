@@ -20,7 +20,5 @@ public class Mapper {
         synchronized (mapper) {
             mapper.wait();
         }
-
-        System.exit(0);
     }
 }
