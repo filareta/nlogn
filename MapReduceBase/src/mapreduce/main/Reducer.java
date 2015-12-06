@@ -15,7 +15,5 @@ public class Reducer {
         synchronized (reducer) {
             reducer.wait();
         }
-
-        System.exit(0);
     }
 }

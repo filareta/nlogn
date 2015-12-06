@@ -190,6 +190,34 @@ table tr:nth-child(even) {
 	color: #444444;
 }
 
+.correlationsList {
+	font-size: 14px;
+}
+
+#correlationsPanel tr div {
+	display:block;		
+	position:relative;
+	top: 0px;
+	left: 0px;
+	font-size:14px;
+	color:#444;	
+	padding-right: 15px;
+	width: auto;
+}
+
+#correlationsPanel .companies {
+	width: 25%;
+}
+
+.viewport {
+	height: 350px;
+	overflow-y: auto;
+}
+
+#correlationsPanel .companies .viewport {
+	height: 405px;
+}
+
 .featured-column {}
 
 
@@ -669,7 +697,7 @@ a.nivo-prevNav {background:url(../img/slide-next-prev.png) left no-repeat;left:5
 
 #panes div {
 	display:none;		
-	position:absolute;
+	position:relative;
 	top: 0px;
 	left: 0px;
 	font-size:14px;

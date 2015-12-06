@@ -9,7 +9,7 @@ import java.util.Random;
  */
 public class CorrelationMockData implements MockDataGenerator {
     public static final int NUMBER_OF_COMPANIES = 500;
-    public static final int NUMBER_OF_INPUTS = 120000;
+    public static final int NUMBER_OF_INPUTS = 20000;
 
     @Override
     public void generateData() {

@@ -1,6 +1,6 @@
 package mapreduce.impl.reduce;
 
-import com.pcbsys.nirvana.client.nConsumeEvent;
+import com.pcbsys.nirvana.client.*;
 import data.CorrelationMockData;
 import mapreduce.base.reduce.BaseReducer;
 
@@ -19,6 +19,7 @@ public class CorrelationReducer extends BaseReducer {
     public CorrelationReducer() {
         super();
         inputChannelName = "outputData";
+        outputChannelName = "correlationOutput";
         maxEventsNumber = NUMBER_OF_MAPPERS;
         sum_xy = new double[companiesNum * (companiesNum + 1) / 2];
         sum_x = new double[companiesNum];
@@ -63,6 +64,28 @@ public class CorrelationReducer extends BaseReducer {
 
     @Override
     protected void submitResults() {
+        nConsumeEvent event;
+        nEventProperties props;
+        double[] currentRow = new double[companiesNum];
 
+        for (int i = 0; i < companiesNum; i++) {
+            for (int j = 0; j < companiesNum; j++) {
+                if (j <= i) {
+                    currentRow[j] = covariance[j][i];
+                } else {
+                    currentRow[j] = covariance[i][j];
+                }
+            }
+
+            props = new nEventProperties();
+            props.put("row", currentRow);
+            event = new nConsumeEvent(props, ("row" + i).getBytes());
+
+            try {
+                outputChannel.publish(event);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
