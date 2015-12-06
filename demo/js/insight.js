@@ -34,6 +34,7 @@ function populateCorrelationPanel() {
 		innerHTML += '</a><br/>';
 	}
 
+	$(".throbber").hide();
 	$(".correlationsPanel .companies .overview").html(innerHTML);
 }
 
