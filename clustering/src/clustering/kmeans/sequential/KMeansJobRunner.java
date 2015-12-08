@@ -17,6 +17,7 @@ import com.pcbsys.nirvana.client.nSessionFactory;
 
 import datagen.PointGenerator;
 
+@Deprecated
 public class KMeansJobRunner extends AbstractJobRunner {
 	/** The final number of clusters, which the algorithm will generate. */
 	private final static int DEFAULT_CLUSTERS_COUNT = 4;

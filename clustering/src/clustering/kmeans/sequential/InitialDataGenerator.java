@@ -5,6 +5,7 @@ import java.util.Random;
 import cluster.Cluster;
 import cluster.Point4D;
 
+@Deprecated
 public final class InitialDataGenerator {
 	
 	public final static Cluster[] generateInitialClusters(final int clustersCount) {
