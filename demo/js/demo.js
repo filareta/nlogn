@@ -5,7 +5,7 @@ var deltasDay = [4.75, -0.46, -1.49, 0.15, 2.23];
 var deltasHour = [3.92, -0.28, -1.62, 0.25, 2.84];
 var clusterCenters = [];
 
-var companyNames = ["ETE", "Volkswagen", "Air France-KLM", "Glencore", "Deutsche Bank", "Halliburton", "Cameco", "SunEdison", "Betsson", "SunEdison"];
+var companyNames = ["Chevron Corp.", "The Coca Cola Company", "Campbell Soup", "Genuine Parts", "Macys Inc.", "Cerner", "SanDisk Corporation", "Apple Inc.", "Apple Inc.", "Salesforce.com"];
 
 var session = Nirvana.createSession();
 session.start();
